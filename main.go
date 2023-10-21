@@ -39,7 +39,12 @@ func main() {
 
 	if _, err := os.Stat(outputValue); os.IsNotExist(err) {
 		fmt.Println("Creating output folder", outputValue)
-		os.Mkdir(outputValue, 0755)
+
+		err := os.MkdirAll(outputValue, 0755)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
 	}
 
 	filepath.Walk(inputValue, func(path string, info fs.FileInfo, err error) error {
@@ -71,5 +76,10 @@ func convertFile(file string, outputFile string) {
 	cmd := exec.Command("ffmpeg", cmdArgs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
-	cmd.Run()
+	err := cmd.Run()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
