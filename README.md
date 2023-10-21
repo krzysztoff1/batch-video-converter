@@ -1,7 +1,8 @@
 # This Go script allows you to batch resize and compress videos using FFmpeg.
 
 Prerequisites
-FFmpeg: Ensure you have FFmpeg installed on your system.
+FFmpeg: Ensure you have [FFmpeg](https://www.ffmpeg.org/) installed on your system.
+Go: Ensure you have [Go](https://go.dev/) installed on your system.
 
 **Usage**
 
@@ -9,7 +10,7 @@ FFmpeg: Ensure you have FFmpeg installed on your system.
 go run main.go --input <<PATH>> --output <<PATH>>
 ```
 
---input: Path to the folder containing the videos you want to resize and compress.
+--input: Path to the folder containing the videos you want to resize and compress.<br>
 --output: Path to the folder where the resized and compressed videos will be saved.
 
 **Example**
