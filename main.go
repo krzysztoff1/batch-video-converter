@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 )
 
-
 func main() {
 	inputPtr := flag.String("input", "", "Input file or folder")
 	outputPtr := flag.String("output", "", "Output file or folder")
@@ -26,6 +25,12 @@ func main() {
 
 	if outputValue == "" {
 		fmt.Println("Output file or folder is required. Example: `go run main.go -input /path/to/input -output /path/to/output`")
+		return
+	}
+
+	var _, err = exec.LookPath("ffmpeg")
+	if err != nil {
+		fmt.Println("ffmpeg not found")
 		return
 	}
 
@@ -58,16 +63,8 @@ func convertFile(file string, outputFile string) {
 	fmt.Println("Converting file", file)
 	fmt.Println("Output file", outputFile)
 
-	var _, err = exec.LookPath("ffmpeg")
-	fmt.Println("ffmpeg path", err)
-
-	if err != nil {
-		fmt.Println("ffmpeg not found")
-		return
-	}
-
 	file = filepath.Clean(file)
-	file = filepath.ToSlash(file)
+	outputFile = filepath.Clean(outputFile)
 
 	cmdArgs := []string{"-i", file, "-vf", "scale=640:480", "-c:a", "aac", "-strict", "experimental", "-b:a", "128k", outputFile}
 
