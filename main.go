@@ -125,7 +125,7 @@ func convertFile(file string, outputFile string) {
 	file = filepath.Clean(file)
 	outputFile = filepath.Clean(outputFile)
 
-	cmdArgs := []string{"-i", file, "-vf", "scale=640:480", "-c:a", "aac", "-strict", "experimental", "-b:a", "128k", outputFile}
+	cmdArgs := []string{"-i", file, "-vf", "scale=1920:trunc(ow/a/2)*2", "-c:a", "aac", "-strict", "experimental", "-b:a", "128k", outputFile}
 
 	cmd := exec.Command("ffmpeg", cmdArgs...)
 	cmd.Stdout = os.Stdout
