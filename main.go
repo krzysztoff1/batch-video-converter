@@ -67,6 +67,12 @@ func main() {
 		}
 
 		outputFile := filepath.Join(outputValue, filepath.Base(path))
+
+		if _, err := os.Stat(outputFile); err == nil {
+			fmt.Println("File already exists, skipping")
+			return nil
+		}
+
 		convertFile(path, outputFile)
 
 		var summary = Summary{
@@ -87,6 +93,12 @@ func main() {
 
 	if walkErr != nil {
 		fmt.Println(walkErr)
+		return
+	}
+
+	if len(summaries) == 0 {
+		fmt.Printf("\033[1;31m")
+		fmt.Println("No new files to convert")
 		return
 	}
 
@@ -112,11 +124,6 @@ func convertFile(file string, outputFile string) {
 
 	file = filepath.Clean(file)
 	outputFile = filepath.Clean(outputFile)
-
-	if _, err := os.Stat(outputFile); err == nil {
-		fmt.Println("File already exists, skipping")
-		return
-	}
 
 	cmdArgs := []string{"-i", file, "-vf", "scale=640:480", "-c:a", "aac", "-strict", "experimental", "-b:a", "128k", outputFile}
 
